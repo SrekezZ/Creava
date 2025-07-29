@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="CREAVA - Profesyonel tasarımlar oluşturmak için kolay kullanımlı tasarım platformu. Binlerce şablon ve sürükle-bırak editörü ile harika tasarımlar yapın.">
+  <title>CREAVA - Design Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Poppins', 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #f5f5f5;
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .logo-symbol {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .logo-symbol:hover {
+      transform: rotate(15deg);
+    }
+
+    .logo-symbol span {
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .logo-text {
+      color: #00c4cc;
+      font-size: 24px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
+
+    nav ul li {
+      margin-left: 20px;
+      position: relative;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      transition: color 0.2s;
+      padding: 5px 0;
+    }
+
+    nav ul li a:hover {
+      color: #00c4cc;
+    }
+
+    nav ul li a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      background: #00c4cc;
+      bottom: 0;
+      left: 0;
+      transition: width 0.3s;
+    }
+
+    nav ul li a:hover::after {
+      width: 100%;
+    }
+
+    .user-actions {
+      display: flex;
+      align-items: center;
+    }
+
+    .user-actions a {
+      margin-left: 15px;
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .user-actions .btn {
+      padding: 10px 20px;
+      border-radius: 30px;
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+
+    .btn-primary {
+      background-color: #00c4cc;
+      color: white;
+      box-shadow: 0 4px 15px rgba(0, 196, 204, 0.3);
+    }
+
+    .btn-primary:hover {
+      background-color: #00a4aa;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 196, 204, 0.4);
+    }
+
+    .hero-section {
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      color: white;
+      text-align: center;
+      padding: 100px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="rgba(255,255,255,0.05)" d="M0,0 L100,0 L100,100 L0,100 Z" /></svg>');
+      background-size: cover;
+      opacity: 0.1;
+    }
+
+    .hero-section h1 {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      font-weight: 700;
+      position: relative;
+      animation: fadeInUp 1s ease;
+    }
+
+    .hero-section p {
+      font-size: 1.3rem;
+      max-width: 700px;
+      margin: 0 auto 40px;
+      opacity: 0.9;
+      position: relative;
+      animation: fadeInUp 1s ease 0.2s forwards;
+      opacity: 0;
+    }
+
+    .features-section {
+      padding: 80px 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .features-section h2 {
+      text-align: center;
+      margin-bottom: 60px;
+      font-size: 2.5rem;
+      color: #333;
+      position: relative;
+    }
+
+    .features-section h2::after {
+      content: '';
+      display: block;
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      margin: 15px auto 0;
+      border-radius: 2px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .feature-card {
+      background: white;
+      border-radius: 12px;
+      padding: 40px 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      transition: all 0.4s ease;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      transition: height 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-card:hover::before {
+      height: 10px;
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      color: #00c4cc;
+      margin-bottom: 25px;
+      transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover .feature-icon {
+      transform: scale(1.1);
+    }
+
+    .feature-card h3 {
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+      color: #333;
+    }
+
+    .feature-card p {
+      color: #666;
+      font-size: 1rem;
+    }
+
+    /* Pricing Section */
+    .pricing-section {
+      padding: 80px 20px;
+      background-color: #fff;
+      text-align: center;
+    }
+
+    .pricing-section h2 {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      color: #333;
+      position: relative;
+      display: inline-block;
+    }
+
+    .pricing-section h2::after {
+      content: '';
+      display: block;
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      margin: 15px auto 0;
+      border-radius: 2px;
+    }
+
+    .pricing-section p {
+      max-width: 700px;
+      margin: 0 auto 50px;
+      color: #666;
+      font-size: 1.1rem;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .pricing-card {
+      background: white;
+      border-radius: 12px;
+      padding: 40px 30px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .pricing-card.popular {
+      border: 2px solid #00c4cc;
+      transform: scale(1.05);
+      box-shadow: 0 10px 30px rgba(0, 196, 204, 0.2);
+    }
+
+    .pricing-card.popular::before {
+      content: 'POPULAR';
+      position: absolute;
+      top: 15px;
+      right: -30px;
+      background: #00c4cc;
+      color: white;
+      padding: 5px 30px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      transform: rotate(45deg);
+    }
+
+    .pricing-card h3 {
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    .price {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #00c4cc;
+    }
+
+    .price span {
+      font-size: 1rem;
+      font-weight: 400;
+      color: #666;
+    }
+
+    .pricing-features {
+      text-align: left;
+      margin-bottom: 30px;
+    }
+
+    .pricing-features li {
+      list-style: none;
+      padding: 8px 0;
+      position: relative;
+      padding-left: 25px;
+    }
+
+    .pricing-features li::before {
+      content: '\f00c';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      color: #00c4cc;
+      position: absolute;
+      left: 0;
+    }
+
+    .pricing-card .btn {
+      width: 100%;
+      padding: 12px;
+      font-weight: 600;
+      border-radius: 30px;
+      transition: all 0.3s ease;
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .cta-section {
+      background: #f0f8ff;
+      padding: 80px 20px;
+      text-align: center;
+      background-image: linear-gradient(rgba(240, 248, 255, 0.9), rgba(240, 248, 255, 0.9)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="%2300c4cc" opacity="0.1" d="M0,0 L100,0 L100,100 L0,100 Z" /></svg>');
+      background-size: cover;
+    }
+
+    .cta-section h2 {
+      margin-bottom: 20px;
+      font-size: 2.2rem;
+      color: #333;
+    }
+
+    .cta-section p {
+      max-width: 600px;
+      margin: 0 auto 30px;
+      color: #666;
+      font-size: 1.1rem;
+    }
+
+    .cta-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .btn-outline {
+      background: white;
+      border: 2px solid #00c4cc;
+      color: #00c4cc;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn-outline:hover {
+      background: #00c4cc;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0, 196, 204, 0.3);
+    }
+
+    footer {
+      background-color: #222;
+      color: white;
+      text-align: center;
+      padding: 30px 20px;
+      font-size: 14px;
+      margin-top: auto;
+    }
+
+    footer p {
+      margin-bottom: 10px;
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .social-icons a {
+      color: white;
+      font-size: 1.2rem;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .social-icons a:hover {
+      color: #00c4cc;
+      transform: translateY(-3px);
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        padding: 15px;
+      }
+
+      nav ul {
+        margin: 15px 0;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      nav ul li {
+        margin: 5px 10px;
+      }
+
+      .user-actions {
+        margin-top: 15px;
+      }
+
+      .hero-section h1 {
+        font-size: 2.5rem;
+      }
+
+      .hero-section p {
+        font-size: 1.1rem;
+      }
+
+      .pricing-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pricing-card.popular {
+        transform: scale(1);
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .btn, .btn-outline {
+        width: 100%;
+        max-width: 250px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-section h1 {
+        font-size: 2rem;
+      }
+
+      .features-section h2,
+      .pricing-section h2 {
+        font-size: 2rem;
+      }
+
+      .feature-card,
+      .pricing-card {
+        padding: 30px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="CREAVA_Home.html" class="logo-container" aria-label="CREAVA Home">
+      <div class="logo-symbol"><span>CV</span></div>
+      <span class="logo-text">CREAVA.com</span>
+    </a>
+    <nav aria-label="Main navigation">
+      <ul>
+        <li><a href="#" aria-current="page">Features</a></li>
+        <li><a href="#">Templates</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#">Learn</a></li>
+      </ul>
+    </nav>
+    <div class="user-actions">
+      <a href="CREAVA_login.html">Log In</a>
+      <a href="CREAVA_signup.html" class="btn btn-primary">Sign Up Free</a>
+    </div>
+  </header>
+
+  <section class="hero-section" aria-labelledby="main-heading">
+    <h1 id="main-heading">Design Anything. Publish Anywhere.</h1>
+    <p>CREAVA makes it easy to create professional designs and documents with a simple drag-and-drop interface and thousands of beautiful templates.</p>
+    <div class="cta-buttons">
+      <a href="CREAVA_signup.html" class="btn btn-primary">Get Started for Free</a>
+    </div>
+  </section>
+
+  <section class="features-section" aria-labelledby="features-heading">
+    <h2 id="features-heading">Everything You Need to Create Stunning Designs</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-pencil-alt" aria-hidden="true"></i></div>
+        <h3>Easy-to-Use Editor</h3>
+        <p>Our drag-and-drop editor makes graphic design simple for everyone. No design skills needed!</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-palette" aria-hidden="true"></i></div>
+        <h3>Thousands of Templates</h3>
+        <p>Choose from over 50,000 professionally designed templates for all your design needs.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fas fa-images" aria-hidden="true"></i></div>
+        <h3>Stock Photos & Assets</h3>
+        <p>Access millions of premium photos, videos, and graphics to make your designs stand out.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing" class="pricing-section" aria-labelledby="pricing-heading">
+    <h2 id="pricing-heading">Simple, Transparent Pricing</h2>
+    <p>Choose the plan that's right for you. No hidden fees, cancel anytime.</p>
+    
+    <div class="pricing-grid">
+      <!-- Student Plan -->
+      <div class="pricing-card">
+        <h3>Student</h3>
+        <div class="price">$3<span>/month</span></div>
+        <ul class="pricing-features">
+          <li>Basic design tools</li>
+          <li>Access to 10,000+ templates</li>
+          <li>5GB cloud storage</li>
+          <li>Limited stock assets (10/month)</li>
+          <li>Watermark on exports</li>
+          <li>Email support</li>
+        </ul>
+        <a href="CREAVA_signup.html" class="btn btn-outline">Get Started</a>
+      </div>
+      
+      <!-- Standard Plan (Popular) -->
+      <div class="pricing-card popular">
+        <h3>Standard</h3>
+        <div class="price">$9.99<span>/month</span></div>
+        <ul class="pricing-features">
+          <li>All basic design tools</li>
+          <li>Access to 30,000+ templates</li>
+          <li>20GB cloud storage</li>
+          <li>100 stock assets/month</li>
+          <li>No watermark</li>
+          <li>Priority email support</li>
+          <li>Basic analytics</li>
+          <li>Team collaboration (up to 3 users)</li>
+        </ul>
+        <a href="CREAVA_signup.html" class="btn btn-primary">Get Started</a>
+      </div>
+      
+      <!-- Advanced Plan -->
+      <div class="pricing-card">
+        <h3>Advanced</h3>
+        <div class="price">$19.99<span>/month</span></div>
+        <ul class="pricing-features">
+          <li>All standard features plus:</li>
+          <li>Unlimited templates access</li>
+          <li>100GB cloud storage</li>
+          <li>Unlimited stock assets</li>
+          <li>Premium support (24/7)</li>
+          <li>Advanced analytics</li>
+          <li>Team collaboration (up to 10 users)</li>
+          <li>Premium plugins & extensions</li>
+          <li>Developer API access</li>
+          <li>White-label options</li>
+        </ul>
+        <a href="CREAVA_signup.html" class="btn btn-outline">Get Started</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section" aria-labelledby="cta-heading">
+    <h2 id="cta-heading">Ready to Start Creating?</h2>
+    <p>Join millions of people using CREAVA to create beautiful designs.</p>
+    <div class="cta-buttons">
+      <a href="CREAVA_signup.html" class="btn btn-primary">Sign Up Free</a>
+      <a href="CREAVA_login.html" class="btn btn-outline">Log In</a>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2023 CREAVA. All rights reserved.</p>
+    <p>Created by SrekezZ</p>
+    <div class="social-icons">
+      <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+      <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+    </div>
+  </footer>
+</body>
+</html>

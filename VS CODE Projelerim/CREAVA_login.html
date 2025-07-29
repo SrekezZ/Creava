@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CREAVA - Professional Login</title>
+  <!-- SEO ve Sosyal Medya -->
+  <meta name="description" content="CREAVA profesyonel bulut hizmetlerine giriş yapın">
+  <meta property="og:title" content="CREAVA - Professional Creative Solutions">
+  <meta property="og:description" content="Login to access your CREAVA dashboard">
+  <meta property="og:image" content="https://example.com/creava-social.jpg">
+  <link rel="canonical" href="https://example.com/login">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Dark Mode Support */
+    @media (prefers-color-scheme: dark) {
+      body {
+        background: linear-gradient(to right, #4a00e0, #2b5876);
+      }
+      .login-container {
+        background: rgba(0, 0, 0, 0.7) !important;
+      }
+    }
+
+    /* High Contrast Mode */
+    @media (prefers-contrast: more) {
+      body {
+        background: #000 !important;
+      }
+      .login-container {
+        background: #111 !important;
+        border: 2px solid white;
+      }
+      .login-button, .signup-button {
+        border: 2px solid white;
+      }
+    }
+
+    .logo-container {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo-symbol {
+      width: 40px;
+      height: 40px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+    
+    .logo-symbol span {
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    
+    .logo-text {
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .photo-grid {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 10px;
+      padding: 20px;
+      z-index: 0;
+    }
+
+    .photo-grid img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      opacity: 0.7;
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+
+    .photo-grid img:hover {
+      transform: scale(1.1);
+      opacity: 1;
+      z-index: 1;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .login-container {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      padding: 40px 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 350px;
+      z-index: 2;
+      position: relative;
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .login-container h2 {
+      color: #fff;
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 2.2rem;
+      letter-spacing: 1px;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .input-group label {
+      color: #f1f1f1;
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 8px;
+      outline: none;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .input-group input:focus {
+      border-color: rgba(255, 255, 255, 0.6);
+      background: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 0 10px rgba(0, 198, 255, 0.3);
+    }
+
+    .input-group input::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* Password Toggle */
+    .password-toggle {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      user-select: none;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .login-button, .signup-button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-weight: bold;
+      font-size: 15px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.3s;
+      text-align: center;
+      text-decoration: none;
+      display: block;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-button {
+      background: linear-gradient(to right, #0072ff, #00c6ff);
+    }
+
+    .signup-button {
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+    }
+
+    .login-button:hover, .signup-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(0, 198, 255, 0.6);
+    }
+
+    .login-button:active, .signup-button:active {
+      transform: scale(0.98);
+    }
+
+    /* Ripple Effect */
+    .login-button:after, .signup-button:after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 5px;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.5);
+      opacity: 0;
+      border-radius: 100%;
+      transform: scale(1, 1) translate(-50%, -50%);
+      transform-origin: 50% 50%;
+    }
+
+    .login-button:active:after, .signup-button:active:after {
+      animation: ripple 0.6s ease-out;
+    }
+
+    @keyframes ripple {
+      0% {
+        transform: scale(0, 0);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(20, 20);
+        opacity: 0;
+      }
+    }
+
+    /* Focus styles for accessibility */
+    .login-button:focus-visible, 
+    .signup-button:focus-visible,
+    input:focus-visible {
+      outline: 3px solid #00c6ff;
+      outline-offset: 2px;
+    }
+
+    .forgot {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .forgot a {
+      color: #ddd;
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+
+    .forgot a:hover {
+      color: white;
+      text-decoration: underline;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 20px 0;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 14px;
+    }
+
+    .divider::before, .divider::after {
+      content: "";
+      flex: 1;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .divider::before {
+      margin-right: 10px;
+    }
+
+    .divider::after {
+      margin-left: 10px;
+    }
+
+    /* Error Message */
+    .error-message {
+      color: #ff6b6b;
+      font-size: 13px;
+      margin-top: 5px;
+      display: none;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 12px 24px;
+      border-radius: 8px;
+      color: white;
+      z-index: 1000;
+      animation: slideIn 0.3s ease-out;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    
+    .toast-success {
+      background: #4CAF50;
+    }
+    
+    .toast-error {
+      background: #F44336;
+    }
+    
+    .fade-out {
+      animation: fadeOut 0.5s ease-out forwards;
+    }
+    
+    @keyframes slideIn {
+      from { transform: translateX(100%); }
+      to { transform: translateX(0); }
+    }
+    
+    @keyframes fadeOut {
+      to { opacity: 0; }
+    }
+
+    /* Loading Spinner */
+    .spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    footer {
+      color: rgba(255, 255, 255, 0.7);
+      text-align: center;
+      padding: 20px;
+      font-size: 12px;
+      z-index: 3;
+    }
+
+    @media (max-width: 768px) {
+      .photo-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+      }
+      
+      .login-container {
+        max-width: 300px;
+        padding: 30px 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .photo-grid {
+        display: none;
+      }
+      
+      body {
+        background: linear-gradient(to bottom, #6a11cb, #2575fc);
+      }
+
+      .button-group {
+        flex-direction: column;
+      }
+      
+      .logo-container {
+        top: 15px;
+        left: 15px;
+      }
+      
+      .logo-text {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXX"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  
+  <div class="logo-container">
+    <a href="CREAVA_Home.html" class="logo-symbol" aria-label="CREAVA Logo"><span>CV</span></a>
+    <a href="CREAVA_Home.html" class="logo-text">CREAVA.com</a>
+  </div>
+
+  <div class="photo-grid">
+    <img 
+      src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=60" 
+      alt="Modern office design" 
+      loading="lazy"
+      width="300"
+      height="200"
+    >
+    <img 
+      src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=60" 
+      alt="Creative workspace" 
+      loading="lazy"
+      width="300"
+      height="200"
+    >
+    <img 
+      src="https://images.unsplash.com/photo-1505692952047-1a78307da8f2?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=60" 
+      alt="Cloud technology concept" 
+      loading="lazy"
+      width="300"
+      height="200"
+    >
+    <img 
+      src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=60" 
+      alt="City skyline" 
+      loading="lazy"
+      width="300"
+      height="200"
+    >
+    <img 
+      src="https://images.unsplash.com/photo-1496568816309-51d7c20e3b21?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=60" 
+      alt="Data center" 
+      loading="lazy"
+      width="300"
+      height="200"
+    >
+    <img 
+      src="https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=60" 
+      alt="Network connections" 
+      loading="lazy"
+      width="300"
+      height="200"
+    >
+    <img 
+      src="https://images.unsplash.com/photo-1514565131-fce0801e5785?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=60" 
+      alt="Digital innovation" 
+      loading="lazy"
+      width="300"
+      height="200"
+    >
+    <img 
+      src="https://images.unsplash.com/photo-1505765050516-f72dcac9c60e?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=60" 
+      alt="Team collaboration" 
+      loading="lazy"
+      width="300"
+      height="200"
+    >
+  </div>
+
+  <div class="login-container">
+    <h2><i>Welcome Back</i></h2>
+    <form id="loginForm" novalidate>
+      <div class="input-group">
+        <label for="username"><i>Email or Username</i></label>
+        <input 
+          type="text" 
+          id="username" 
+          placeholder="Enter your email or username" 
+          required
+          aria-required="true"
+          autocomplete="username"
+        >
+        <div id="username-error" class="error-message" role="alert"></div>
+      </div>
+      <div class="input-group">
+        <label for="password"><i>Password</i></label>
+        <div style="position: relative;">
+          <input 
+            type="password" 
+            id="password" 
+            placeholder="Enter your password" 
+            required
+            aria-required="true"
+            autocomplete="current-password"
+          >
+          <span id="togglePassword" class="password-toggle" aria-label="Show password">👁</span>
+        </div>
+        <div id="password-error" class="error-message" role="alert"></div>
+      </div>
+      
+      <button type="submit" class="login-button" id="submitBtn">
+        <span id="buttonText">Log In</span>
+      </button>
+      
+      <div class="divider" aria-hidden="true">or</div>
+      
+      <div class="button-group">
+        <a href="CREAVA_signup.html" class="signup-button">Sign Up</a>
+      </div>
+      
+      <div class="forgot">
+        <a href="#" aria-label="Forgot password">Forgot Password?</a>
+      </div>
+    </form>
+  </div>
+
+  <footer>© 2023 CREAVA. All rights reserved.</footer>
+
+  <script>
+    // Google Tag Manager
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-XXXXXX');
+
+    // Password Toggle
+    document.getElementById('togglePassword').addEventListener('click', function() {
+      const passwordInput = document.getElementById('password');
+      const type = passwordInput.type === 'password' ? 'text' : 'password';
+      passwordInput.type = type;
+      this.setAttribute('aria-label', type === 'password' ? 'Show password' : 'Hide password');
+    });
+
+    // Form Validation
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+      let isValid = true;
+      
+      // Reset errors
+      document.querySelectorAll('.error-message').forEach(el => {
+        el.textContent = '';
+        el.style.display = 'none';
+      });
+      
+      // Validate username (email or username)
+      if (!username) {
+        showError('username-error', 'Please enter your email or username');
+        isValid = false;
+      } else if (!validateEmail(username) && !validateUsername(username)) {
+        showError('username-error', 'Please enter a valid email or username');
+        isValid = false;
+      }
+      
+      // Validate password
+      if (!password) {
+        showError('password-error', 'Please enter your password');
+        isValid = false;
+      } else if (password.length < 8) {
+        showError('password-error', 'Password must be at least 8 characters');
+        isValid = false;
+      }
+      
+      if (!isValid) return;
+      
+      // Show loading state
+      const submitBtn = document.getElementById('submitBtn');
+      const buttonText = document.getElementById('buttonText');
+      submitBtn.disabled = true;
+      buttonText.innerHTML = '<span class="spinner"></span> Logging in...';
+      
+      try {
+        // Simulate API call
+        await simulateLogin(username, password);
+        
+        // Show success message
+        showToast('Login successful! Redirecting...', 'success');
+        
+        // Redirect after delay
+        setTimeout(() => {
+          window.location.href = 'CREAVA_Home.html';
+        }, 1500);
+      } catch (error) {
+        showError('password-error', 'Invalid credentials. Please try again.');
+        showToast('Login failed. Please check your credentials.', 'error');
+      } finally {
+        submitBtn.disabled = false;
+        buttonText.textContent = 'Log In';
+      }
+    });
+
+    // Helper Functions
+    function validateEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email);
+    }
+    
+    function validateUsername(username) {
+      const re = /^[a-zA-Z0-9_]{3,20}$/;
+      return re.test(username);
+    }
+    
+    function showError(elementId, message) {
+      const element = document.getElementById(elementId);
+      element.textContent = message;
+      element.style.display = 'block';
+    }
+    
+    function showToast(message, type = 'success') {
+      const toast = document.createElement('div');
+      toast.className = `toast toast-${type}`;
+      toast.textContent = message;
+      toast.setAttribute('role', 'alert');
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.classList.add('fade-out');
+        setTimeout(() => toast.remove(), 500);
+      }, 3000);
+    }
+    
+    async function simulateLogin(username, password) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          // Simulate successful login for demo purposes
+          // In real app, this would be an API call
+          if (username && password) {
+            resolve({ success: true });
+          } else {
+            reject(new Error('Invalid credentials'));
+          }
+        }, 1000);
+      });
+    }
+  </script>
+</body>
+</html>
